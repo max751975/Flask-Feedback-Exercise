@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}User info{% endblock %}
+{%block content%}
+<div class="container shadow p-3 mb-5 bg-body rounded" style="background-color: rgb(202, 233, 238); width:80%">
+    {% if user.id == session['user_id']%}
+    <h1 class="display-3 fw-bold">{{user.first_name}}</h1>
+    <ul>
+        <li><b>Name:</b> {{user.first_name}}</li>
+        <li><b>Last Name:</b> {{user.last_name}}</li>
+        <li><b>username:</b> {{user.username}}</li>
+        <li><b>email:</b> {{user.email}}</li>
+    </ul>
+        {%if feedbacks %}
+        <div class="container shadow p-3 mb-5 bg-body rounded" style="background-color: rgb(218, 245, 240); width:100%">
+
+            <ul>
+                <h2 class="display-5 fw-bold">Your Feedbacks</h2>
+                {% for f in feedbacks %}
+                <li> <a href="/feedback/{{f.id}}">{{f.title}}</a></li>
+                {% endfor %}
+            </ul>
+        
+        </div>
+        {% endif %}
+    <div class="container shadow p-3 mb-5 bg-body rounded" style="background-color: rgb(218, 245, 240); width:100%">
+        <h1 class="display-5 fw-bold">Add feedback</h1>
+        <p class="lead">Share your feedback</p>
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+    
+            {% for field in form if field.widget.input_type != 'hidden'%}
+            <p>
+                {{field.label(class_="form-label")}}
+                {{field(class_="form-control")}}
+                {%for error in field.errors %}
+                <span class="text-danger">
+                    {{error}}
+                </span>
+                {% endfor%}
+            </p>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Post</button>
+        </form>
+    </div>
+    <button class="btn btn-danger mb-5" formaction="/users/{{ user.id }}/delete" formmethod="POST">Remove user</button>
+    {% else %}
+    <h1 class="display-5 fw-bold text-danger">You cannot see other user's info</h1>
+    {% endif %}
+</div>
+{% endblock%}

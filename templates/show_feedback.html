@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Feedback{% endblock %}
+{%block content%}
+<div class="container shadow p-3 mb-5 bg-body rounded" style="background-color: rgb(218, 245, 240); width:80%">
+    <h3>{{feedback.title}}</h3>
+    <p>
+        {{feedback.text}}
+    </p>
+</div>
+<div class="container shadow p-3 mb-5 bg-body rounded" style="background-color: rgb(218, 245, 240); width:80%">
+    <h3 class="display-3 fw-bold">Edit feedback</h3>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden'%}
+        <p>
+            {{field.label(class_="form-label")}}
+            {{field(class_="form-control")}}
+            {%for error in field.errors %}
+            <span class="text-danger">
+                {{error}}
+            </span>
+            {% endfor%}
+        </p>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Save</button>
+        <button class="btn btn-danger" formaction="/feedback/{{ feedback.id }}/delete" formmethod="POST">Delete</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

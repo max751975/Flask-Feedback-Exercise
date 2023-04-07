@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Flask Feedback{% endblock %}
+{% block content%}
+<div class="container shadow p-3 mb-5 bg-body rounded" style="width:70%; background-color:rgb(218, 245, 240)">
+    <h1 class="display-4 fw-bold">All Feedbacks</h1>
+    <ul>
+        {% for f in feedbacks %}
+        <li> 
+            <b>@{{f.user.username}} -</b> {{ f.text }}
+            {% if session['username'] == f.username%}
+            <!-- <form action="/feedback/{{f.id}}" style="display: inline;">
+                <i class="fa-solid fa-car fa-flip-vertical fa-xs"></i>
+            </form> -->
+            <a href="/feedback/{{f.id}}" class="p-0 text-success" style="text-decoration:none">edit</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    </div>
+{% endblock %}
